@@ -1,6 +1,43 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linguotech/model/firebase_Auth.dart';
+import 'package:linguotech/services/firebase_service.dart';
 
 class RegisterScreen extends StatelessWidget {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirestoreService _firestoreService = FirestoreService();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController professionController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> _register() async {
+    try {
+      User? user = await _authService.registerWithEmailAndPassword(
+        emailController.text.trim(),
+        passwordController.text,
+      );
+
+      if (user != null) {
+        await _firestoreService.addUser(
+          user.uid,
+          nameController.text,
+          professionController.text,
+          emailController.text,
+        );
+
+        // Navigate to home or another screen after successful registration
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        // Handle registration failure
+      }
+    } catch (e) {
+      print("Error during registration: $e");
+      // Handle registration failure (e.g., show an error message)
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,6 +50,7 @@ class RegisterScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: nameController,
               decoration: InputDecoration(
                 labelText: 'Name',
                 border:
@@ -21,6 +59,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -30,6 +69,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -39,6 +79,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: professionController,
               decoration: InputDecoration(
                 labelText: 'Profession',
                 border:
@@ -48,7 +89,7 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Handle registration logic
+                _register();
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

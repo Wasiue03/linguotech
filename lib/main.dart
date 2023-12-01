@@ -4,6 +4,7 @@ import 'package:linguotech/Components/home_page.dart';
 import 'package:linguotech/Screens/Login/user_login.dart';
 import 'package:linguotech/Screens/Register_Screen/user_register.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:linguotech/Screens/Translation_Screen/translate.dart';
 import 'package:linguotech/firebase_options.dart';
 
 Future main() async {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LandingPage(),
+      home: Translate(),
     );
   }
 }

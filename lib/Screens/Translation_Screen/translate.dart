@@ -1,86 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:linguotech/model/translation_urdu/ur_to_eng.dart';
 
-class Translate extends StatefulWidget {
-  @override
-  _TranslateState createState() => _TranslateState();
-}
-
-class _TranslateState extends State<Translate> {
-  String selectedLanguage = 'Urdu';
-  String urduText = ''; // Empty Urdu text
-  String translatedText = '';
-
+class TranslationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Translation App'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Language Selection Bar
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LanguageOption(
-                  language: 'Urdu',
-                  isSelected: selectedLanguage == 'Urdu',
-                  onTap: () {
-                    changeLanguage('Urdu');
-                  },
-                ),
-                SizedBox(width: 20),
-                LanguageOption(
-                  language: 'English',
-                  isSelected: selectedLanguage == 'English',
-                  onTap: () {
-                    changeLanguage('English');
-                  },
-                ),
-              ],
-            ),
-          ),
-          // Urdu Text Input
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  urduText = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter Urdu Text',
-                border: OutlineInputBorder(),
+      body: TranslateBody(),
+    );
+  }
+}
+
+class TranslateBody extends StatefulWidget {
+  @override
+  _TranslateBodyState createState() => _TranslateBodyState();
+}
+
+class _TranslateBodyState extends State<TranslateBody> {
+  String selectedLanguage = 'Urdu';
+  String urduText = '';
+  String translatedText = '';
+  final TranslateLogic translateLogic = TranslateLogic();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LanguageOption(
+                language: 'Urdu',
+                isSelected: selectedLanguage == 'Urdu',
+                onTap: () {
+                  changeLanguage('Urdu');
+                },
               ),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-            ),
+              SizedBox(width: 20),
+              LanguageOption(
+                language: 'English',
+                isSelected: selectedLanguage == 'English',
+                onTap: () {
+                  changeLanguage('English');
+                },
+              ),
+            ],
           ),
-          SizedBox(height: 20),
-          // Translated Text Card
-          Expanded(
-            child: TranslationCard(
-              language: 'English',
-              text: translatedText,
-              onSpeechIconPressed: () {},
-            ),
-          ),
-          SizedBox(height: 20),
-          // Translate Button
-          ElevatedButton(
-            onPressed: () {
-              translateText(); // Call the function to translate text
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                urduText = value;
+              });
             },
-            child: Text('Translate'),
+            decoration: InputDecoration(
+              hintText: 'Enter Urdu Text',
+              border: OutlineInputBorder(),
+            ),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 20),
+        Expanded(
+          child: TranslationCard(
+            language: 'English',
+            text: translatedText,
+            onSpeechIconPressed: () {
+              // Add functionality for speech icon pressed
+            },
+          ),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            translateText();
+          },
+          child: Text('Translate'),
+        ),
+      ],
     );
   }
 
@@ -90,54 +95,38 @@ class _TranslateState extends State<Translate> {
     });
   }
 
-  void translateText() async {
-    const String flaskServerUrl = 'http://127.0.0.1:5000';
-    const String apiEndpoint = '/translate';
-
-    final Map<String, dynamic> requestData = {
-      'urdu_sentence': urduText,
-    };
-
+  Future<void> translateText() async {
     try {
-      final response = await http.post(
-        Uri.parse('$flaskServerUrl$apiEndpoint'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(requestData),
-      );
+      final translation = await translateLogic.translateText(urduText);
+      print("Translation result: $translation");
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        setState(() {
-          translatedText = data['translation'];
-        });
-      } else {
-        // Handle error
-        print('Error: ${response.statusCode}');
-      }
+      setState(() {
+        translatedText = translation;
+      });
     } catch (error) {
-      // Handle network or other errors
-      print('Error: $error');
+      print("Translation error: $error");
+      setState(() {
+        translatedText = 'Translation Error';
+      });
     }
   }
 }
 
 class LanguageOption extends StatelessWidget {
-  final String language;
-  final bool isSelected;
-  final Function onTap;
-
-  LanguageOption({
+  const LanguageOption({
     required this.language,
     required this.isSelected,
     required this.onTap,
   });
 
+  final String language;
+  final bool isSelected;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        onTap();
-      },
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         decoration: BoxDecoration(
@@ -157,15 +146,15 @@ class LanguageOption extends StatelessWidget {
 }
 
 class TranslationCard extends StatelessWidget {
-  final String language;
-  final String text;
-  final VoidCallback onSpeechIconPressed;
-
-  TranslationCard({
+  const TranslationCard({
     required this.language,
     required this.text,
     required this.onSpeechIconPressed,
   });
+
+  final String language;
+  final String text;
+  final VoidCallback onSpeechIconPressed;
 
   @override
   Widget build(BuildContext context) {

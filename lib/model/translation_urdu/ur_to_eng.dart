@@ -19,7 +19,7 @@ class TranslateLogic {
     try {
       debugPrint('Before rqst');
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:5000/translate'),
+        Uri.parse('http://localhost:5000/translate'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -38,7 +38,7 @@ class TranslateLogic {
       }
     } catch (error) {
       // Handle network or other errors
-      print('Error: $error');
+      debugPrint('Error: $error');
       return 'Translation Error';
     }
   }

@@ -153,7 +153,7 @@ class _TranslateBodyState extends State<TranslateBody> {
   Future<void> translateText() async {
     try {
       final translation =
-          await translateLogic.translateText(urduTextController.text);
+          await translateLogic.translatetext(urduTextController.text);
 
       setState(() {
         translatedText = translation;

@@ -81,20 +81,50 @@ class _TranslateBodyState extends State<TranslateBody> {
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            controller: urduTextController,
-            onChanged: (value) {
-              // No need to use setState since it's a stateful widget
-            },
-            decoration: InputDecoration(
-              hintText: 'Enter Urdu Text',
-              border: OutlineInputBorder(),
+          child: Card(
+            elevation: 5,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Urdu',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: urduTextController,
+                    onChanged: (value) {
+                      // No need to use setState since it's a stateful widget
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Enter Urdu Text',
+                    ),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.volume_up),
+                        onPressed: () {
+                          // Add functionality for speech icon pressed
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18),
           ),
         ),
-        SizedBox(height: 20),
         Expanded(
           child: Card(
             elevation: 5,

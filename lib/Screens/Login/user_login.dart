@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:linguotech/Components/home_page.dart';
+import 'package:linguotech/services/google_sign_in.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -84,6 +85,14 @@ class _SignInScreenState extends State<SignInScreen> {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
               onPressed: () => _signInWithEmailAndPassword(context),
               child: Text('Sign In'),
+            ),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
+              onPressed: () => signInWithGoogle(context),
+              icon: Icon(Icons.chrome_reader_mode),
+              label: Text('Sign In with Google'),
             ),
           ],
         ),

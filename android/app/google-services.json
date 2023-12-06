@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "691889381035",
+    "project_id": "linguotech-c7558",
+    "storage_bucket": "linguotech-c7558.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691889381035:android:2c19166cfdf29ab2c221ee",
+        "android_client_info": {
+          "package_name": "com.example.linguotech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaLm6VwH98znG-dwEAm9ZZNe9FhrDB6Co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

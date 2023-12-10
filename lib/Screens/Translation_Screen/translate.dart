@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:linguotech/model/translation_urdu/ur_to_eng.dart';
 
@@ -193,7 +194,7 @@ class _TranslateBodyState extends State<TranslateBody> {
                         IconButton(
                           icon: Icon(Icons.copy),
                           onPressed: () {
-                            // Add functionality for copy icon pressed
+                            copyToClipboard();
                           },
                         ),
                       ],
@@ -228,5 +229,16 @@ class _TranslateBodyState extends State<TranslateBody> {
         translatedText = 'Translation Error';
       });
     }
+  }
+
+  void copyToClipboard() {
+    FlutterClipboard.copy(translatedText)
+        .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Translated text copied to clipboard'),
+                backgroundColor: Colors.green,
+              ),
+            ))
+        .catchError((error) => print('Error copying to clipboard: $error'));
   }
 }

@@ -80,21 +80,32 @@ class _TranslateBodyState extends State<TranslateBody> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(4.0),
           child: Card(
             elevation: 5,
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Urdu',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Urdu',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.volume_up),
+                        onPressed: () {
+                          // Add functionality for speech icon pressed
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(height: 10),
                   TextField(
@@ -104,71 +115,94 @@ class _TranslateBodyState extends State<TranslateBody> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Enter Urdu Text',
+                      alignLabelWithHint: true, // Align hint to the start
+                      border: InputBorder.none, // Remove underline
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start, // Align text to the start
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.volume_up),
-                        onPressed: () {
-                          // Add functionality for speech icon pressed
-                        },
+                  SizedBox(height: 25),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        translateText();
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        minimumSize: Size(10, 20),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'English',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      child: Text(
+                        'Translate',
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    translatedText,
-                    style: TextStyle(fontSize: 16),
-                  ),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.volume_up),
-                        onPressed: () {
-                          // Add functionality for speech icon pressed
-                        },
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
           ),
         ),
         SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            translateText();
-          },
-          child: Text('Translate'),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Card(
+              elevation: 5,
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.volume_up),
+                          onPressed: () {
+                            // Add functionality for copy icon pressed
+                          },
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'English',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      translatedText,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.star_border),
+                          onPressed: () {
+                            // Add functionality for favorite icon pressed
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () {
+                            // Add functionality for copy icon pressed
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

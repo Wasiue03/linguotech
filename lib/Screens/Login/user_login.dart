@@ -62,23 +62,6 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  Future<void> signInWithGoogle(BuildContext context) async {
-    try {
-      await signInWithGoogle(context);
-
-      // If the authentication is successful, navigate to the TranslationScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TranslationScreen(),
-        ),
-      );
-    } catch (e) {
-      print('Error signing in with Google in UI: $e');
-      // Handle error (show a message, etc.)
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

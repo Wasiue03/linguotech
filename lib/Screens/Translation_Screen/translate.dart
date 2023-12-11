@@ -1,5 +1,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:linguotech/model/translation_urdu/ur_to_eng.dart';
 
 class TranslationScreen extends StatelessWidget {
@@ -24,6 +25,15 @@ class _TranslateBodyState extends State<TranslateBody> {
   String translatedText = '';
   final TranslateLogic translateLogic = TranslateLogic();
   final TextEditingController urduTextController = TextEditingController();
+
+  FlutterTts flutterTts = FlutterTts();
+
+  // Function to read text aloud
+  Future<void> speakText(String text) async {
+    await flutterTts.speak(text);
+    await flutterTts.setPitch(1.0);
+    await flutterTts.setSpeechRate(0.5);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +112,8 @@ class _TranslateBodyState extends State<TranslateBody> {
                       ),
                       IconButton(
                         icon: Icon(Icons.volume_up),
-                        onPressed: () {
-                          // Add functionality for speech icon pressed
+                        onPressed: () async {
+                          await speakText(urduTextController.text);
                         },
                       ),
                     ],
@@ -163,8 +173,8 @@ class _TranslateBodyState extends State<TranslateBody> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.volume_up),
-                          onPressed: () {
-                            // Add functionality for copy icon pressed
+                          onPressed: () async {
+                            await speakText(translatedText);
                           },
                         ),
                       ],
@@ -239,6 +249,8 @@ class _TranslateBodyState extends State<TranslateBody> {
                 backgroundColor: Colors.green,
               ),
             ))
-        .catchError((error) => print('Error copying to clipboard: $error'));
+        // ignore: invalid_return_type_for_catch_error
+        .catchError(
+            (error) => debugPrint('Error copying to clipboard: $error'));
   }
 }

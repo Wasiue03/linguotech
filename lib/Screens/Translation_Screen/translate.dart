@@ -52,18 +52,35 @@ class _TranslateBodyState extends State<TranslateBody> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
-                    color:
-                        selectedLanguage == 'Urdu' ? Colors.blue : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    border: selectedLanguage == 'Urdu'
+                        ? Border(
+                            bottom: BorderSide(
+                              color: Colors.black, // Adjust the underline color
+                              width:
+                                  2.0, // Adjust the thickness of the underline
+                            ),
+                          )
+                        : null, // No border when not selected
                   ),
                   child: Text(
                     'Urdu',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: selectedLanguage == 'Urdu'
+                          ? Colors.orange
+                          : Colors.black,
                       fontWeight: FontWeight.bold,
+                      decoration: selectedLanguage == 'Urdu'
+                          ? TextDecoration.underline
+                          : TextDecoration.none,
                     ),
                   ),
                 ),
+              ),
+              SizedBox(width: 20),
+              Icon(
+                Icons.compare_arrows, // Double-headed arrow icon
+                size: 30,
+                color: Colors.black,
               ),
               SizedBox(width: 20),
               GestureDetector(
@@ -73,16 +90,26 @@ class _TranslateBodyState extends State<TranslateBody> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
-                    color: selectedLanguage == 'English'
-                        ? Colors.blue
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    border: selectedLanguage == 'English'
+                        ? Border(
+                            bottom: BorderSide(
+                              color: Colors.black, // Adjust the underline color
+                              width:
+                                  2.0, // Adjust the thickness of the underline
+                            ),
+                          )
+                        : null, // No border when not selected
                   ),
                   child: Text(
                     'English',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: selectedLanguage == 'English'
+                          ? Colors.orange
+                          : Colors.black,
                       fontWeight: FontWeight.bold,
+                      decoration: selectedLanguage == 'English'
+                          ? TextDecoration.underline
+                          : TextDecoration.none,
                     ),
                   ),
                 ),

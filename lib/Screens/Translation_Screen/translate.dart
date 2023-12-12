@@ -9,6 +9,12 @@ class TranslationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Translation App'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/login');
+          },
+        ),
       ),
       body: TranslateBody(),
     );

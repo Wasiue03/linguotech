@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:linguotech/model/firebase_Auth.dart';
@@ -11,31 +13,64 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController professionController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  Future<void> _register(BuildContext context) async {
+    final String name = nameController.text.trim();
+    final String email = emailController.text.trim();
+    final String password = passwordController.text;
 
-  Future<void> _register() async {
+    // Validate if any field is empty
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      _showSnackBar(context, 'Please fill in all fields');
+      return;
+    }
+
+    if (e.toString().contains('email-already-in-use')) {
+      _showSnackBar(
+          context, 'Email already exists. Please use a different email.');
+    } else {
+      // Handle other registration failures
+      _showSnackBar(context, 'Registration failed. Please try again.');
+    }
+    // Validate if the password is strong enough
+    if (password.length < 6) {
+      _showSnackBar(context, 'Password must be at least 6 characters');
+      return;
+    }
+
     try {
-      User? user = await _authService.registerWithEmailAndPassword(
-        emailController.text.trim(),
-        passwordController.text,
-      );
+      User? user =
+          await _authService.registerWithEmailAndPassword(email, password);
 
       if (user != null) {
         await _firestoreService.addUser(
           user.uid,
-          nameController.text,
+          name,
           professionController.text,
-          emailController.text,
+          email,
         );
 
-        // Navigate to home or another screen after successful registration
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      } else {
-        // Handle registration failure
+        nameController.clear();
+        emailController.clear();
+        passwordController.clear();
+        professionController.clear();
+
+        // Registration successful, you can show a success message
+        _showSnackBar(context, 'Registration successful');
       }
     } catch (e) {
       print("Error during registration: $e");
       // Handle registration failure (e.g., show an error message)
+      _showSnackBar(context, 'Please fill in all fields');
     }
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 
   @override
@@ -89,7 +124,7 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                _register();
+                _register(context);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

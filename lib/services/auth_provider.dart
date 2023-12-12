@@ -24,10 +24,10 @@ Future<void> signInWithGoogle(BuildContext context) async {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
     // If successful, navigate to the TranslationScreen
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => TranslationScreen(),
+        builder: (context) =>
+            TranslationScreen(), // Replace HomeScreen with your actual home screen widget
       ),
     );
 

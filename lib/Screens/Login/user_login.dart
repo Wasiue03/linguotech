@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:linguotech/Screens/Translation_Screen/translate.dart';
 import 'package:linguotech/services/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -16,6 +17,28 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedLoginInfo();
+  }
+
+  Future<void> _loadSavedLoginInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _emailController.text = prefs.getString('email') ?? '';
+      _passwordController.text = prefs.getString('password') ?? '';
+      saveLoginInfo = _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
+
+  Future<void> _saveLoginInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', _emailController.text);
+    prefs.setString('password', _passwordController.text);
+  }
+
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
       String email = _emailController.text.trim();
@@ -29,6 +52,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
         User? user = userCredential.user;
         print('Signed in with email and password: ${user?.uid}');
+
+        if (saveLoginInfo) {
+          await _saveLoginInfo();
+        }
 
         // Show success message using SnackBar
         ScaffoldMessenger.of(context).showSnackBar(
@@ -75,10 +102,19 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                GestureDetector(
+                  onTap: () {
+                    // Trigger saving login info when the email field is tapped
+                    if (saveLoginInfo) {
+                      _saveLoginInfo();
+                    }
+                  },
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                  ),
                 ),
+
                 SizedBox(height: 16),
                 TextField(
                   controller: _passwordController,
@@ -107,6 +143,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       onChanged: (value) {
                         setState(() {
                           saveLoginInfo = value!;
+                          if (saveLoginInfo) {
+                            _saveLoginInfo();
+                          }
                         });
                       },
                     ),
@@ -169,6 +208,22 @@ class _SignInScreenState extends State<SignInScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
+                SizedBox(
+                    height: 10), // Add some spacing between Log In and Sign Up
+
+                TextButton(
+                  onPressed: () {
+                    // Navigate to the Sign Up screen when Sign Up is pressed
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                  child: Text(
+                    "Don't have an account? Sign Up",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.orange,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -177,5 +232,39 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _handleForgotPassword() {}
+  void _handleForgotPassword() async {
+    try {
+      String email = _emailController.text.trim();
+
+      if (email.isNotEmpty) {
+        await _auth.sendPasswordResetEmail(email: email);
+
+        // Show success message using SnackBar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Password reset email sent. Check your inbox.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        // Show an error message for missing email
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please enter your email address.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error sending password reset email: $e');
+      // Handle specific errors, such as invalid email or user not found.
+      // Show an error message using SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error sending password reset email.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 }

@@ -102,10 +102,19 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                GestureDetector(
+                  onTap: () {
+                    // Trigger saving login info when the email field is tapped
+                    if (saveLoginInfo) {
+                      _saveLoginInfo();
+                    }
+                  },
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                  ),
                 ),
+
                 SizedBox(height: 16),
                 TextField(
                   controller: _passwordController,

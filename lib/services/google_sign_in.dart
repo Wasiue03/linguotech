@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:linguotech/Components/home_page.dart';
+import 'package:linguotech/Screens/Translation_Screen/translate.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -9,8 +9,16 @@ Future<void> signInWithGoogle(BuildContext context) async {
   try {
     final GoogleSignInAccount? googleSignInAccount =
         await GoogleSignIn().signIn();
+
+    if (googleSignInAccount == null) {
+      // User canceled the sign-in process
+      return;
+    }
+
+    await GoogleSignIn().signOut(); // Sign out before initiating a new sign-in
+
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount!.authentication;
+        await googleSignInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
@@ -30,7 +38,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
     );
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => TranslationScreen(),
       ),
     );
   } catch (e) {

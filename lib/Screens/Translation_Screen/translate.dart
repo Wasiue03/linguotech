@@ -37,8 +37,8 @@ class _TranslateBodyState extends State<TranslateBody> {
   // Function to read text aloud
   Future<void> speakText(String text) async {
     await flutterTts.speak(text);
-    await flutterTts.setPitch(1.0);
-    await flutterTts.setSpeechRate(0.5);
+    // await flutterTts.setPitch(1.0);
+    // await flutterTts.setSpeechRate(0.5);
   }
 
   @override

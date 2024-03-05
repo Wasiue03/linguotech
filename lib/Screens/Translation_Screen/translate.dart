@@ -17,6 +17,32 @@ class TranslationScreen extends StatelessWidget {
         ),
       ),
       body: TranslateBody(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Summary',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: 0, // Set the initial index of the selected icon
+        onTap: (int index) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 1) {
+            Navigator.pushReplacementNamed(context, '/history');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/settings');
+          }
+        },
+      ),
     );
   }
 }

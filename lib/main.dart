@@ -4,6 +4,7 @@ import 'package:linguotech/Components/home_page.dart';
 import 'package:linguotech/Screens/Login/user_login.dart';
 import 'package:linguotech/Screens/Register_Screen/user_register.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:linguotech/Screens/Summarization/summary.dart';
 import 'package:linguotech/Screens/Translation_Screen/translate.dart';
 import 'package:linguotech/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/translation': (context) => TranslationScreen(),
         '/login': (context) => SignInScreen(),
         '/signup': (context) => RegisterScreen(),
+        '/summary': (context) => SummaryGeneratorScreen(),
       },
     );
   }

@@ -26,8 +26,18 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Summary')),
-        backgroundColor: Color.fromARGB(255, 224, 106, 3),
+        title: Center(
+            child: Text(
+          'Summary',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )),
+        backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.link),
+            onPressed: () {},
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

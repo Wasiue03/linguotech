@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:linguotech/widgets/icons.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
 
-void main() {
-  runApp(SummaryGenerator());
-}
-
 class SummaryGenerator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +24,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _inputController = TextEditingController();
   TextEditingController _outputController = TextEditingController();
   String selectedLanguage = 'Urdu';
+  String _webLink = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +46,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
               children: [
                 LanguageSelector(selectedLanguage, changeLanguage),
                 SizedBox(height: 10),
-                LinkIcon(),
+                GestureDetector(
+                  onTap: () {
+                    _showLinkInputDialog(context);
+                  },
+                  child: LinkIcon(),
+                ),
                 SizedBox(height: 20),
                 TextField(
                   controller: _inputController,
@@ -70,7 +72,10 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     String summary = generateSummary(inputText);
                     _outputController.text = summary;
                   },
-                  child: Text('Generate'),
+                  child: Text(
+                    'Generate',
+                    style: TextStyle(color: Colors.orange),
+                  ),
                 ),
                 SizedBox(height: 25),
                 TextField(
@@ -104,5 +109,33 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
     setState(() {
       selectedLanguage = language;
     });
+  }
+
+  Future<void> _showLinkInputDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Web Link'),
+          content: TextField(
+            onChanged: (value) {
+              setState(() {
+                _webLink = value;
+              });
+            },
+            decoration: InputDecoration(hintText: 'Paste or write web link'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Submit'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Perform actions with _webLink
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

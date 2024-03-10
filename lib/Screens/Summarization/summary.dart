@@ -21,6 +21,7 @@ class SummaryGeneratorScreen extends StatefulWidget {
 class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _inputController = TextEditingController();
   TextEditingController _outputController = TextEditingController();
+  String selectedLanguage = 'Urdu';
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +29,118 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       appBar: AppBar(
         title: Center(
             child: Text(
-          'Summary',
+          'Text Summarization',
           style: TextStyle(fontWeight: FontWeight.bold),
         )),
         backgroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.link),
-            onPressed: () {},
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(13.0),
           child: Container(
-            margin: EdgeInsets.only(top: 40),
             child: Column(
               children: [
+                Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              changeLanguage('Urdu');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              decoration: BoxDecoration(
+                                border: selectedLanguage == 'Urdu'
+                                    ? Border(
+                                        bottom: BorderSide(
+                                          color: Colors
+                                              .black, // Adjust the underline color
+                                          width:
+                                              2.0, // Adjust the thickness of the underline
+                                        ),
+                                      )
+                                    : null, // No border when not selected
+                              ),
+                              child: Text(
+                                'Urdu',
+                                style: TextStyle(
+                                  color: selectedLanguage == 'Urdu'
+                                      ? Colors.orange
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: selectedLanguage == 'Urdu'
+                                      ? TextDecoration.underline
+                                      : TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Icon(
+                            Icons.compare_arrows, // Double-headed arrow icon
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () {
+                              changeLanguage('English');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              decoration: BoxDecoration(
+                                border: selectedLanguage == 'English'
+                                    ? Border(
+                                        bottom: BorderSide(
+                                          color: Colors
+                                              .black, // Adjust the underline color
+                                          width:
+                                              2.0, // Adjust the thickness of the underline
+                                        ),
+                                      )
+                                    : null, // No border when not selected
+                              ),
+                              child: Text(
+                                'English',
+                                style: TextStyle(
+                                  color: selectedLanguage == 'English'
+                                      ? Colors.orange
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: selectedLanguage == 'English'
+                                      ? TextDecoration.underline
+                                      : TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.link),
+                    SizedBox(width: 5),
+                    Text(
+                      'Add link here',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 TextField(
                   controller: _inputController,
                   maxLines: 10,
@@ -67,7 +162,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   },
                   child: Text('Generate'),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 25),
                 TextField(
                   controller: _outputController,
                   maxLines: 10,
@@ -93,5 +188,11 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
     // Here you can implement your summary generation logic
     // For now, let's just return the input text
     return inputText;
+  }
+
+  void changeLanguage(String language) {
+    setState(() {
+      selectedLanguage = language;
+    });
   }
 }

@@ -1,6 +1,6 @@
 // screens/translation_screen.dart
 import 'package:flutter/material.dart';
-import 'package:linguotech/widgets/Navigation_bar.dart';
+import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/Translate/TranslateBody.dart';
 
 class TranslationScreen extends StatelessWidget {

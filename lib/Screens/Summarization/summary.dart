@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linguotech/widgets/Navigation_bar.dart';
+import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/icons.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
 
@@ -53,18 +53,24 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   },
                   child: LinkIcon(),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 TextField(
                   controller: _inputController,
-                  maxLines: 10,
+                  maxLines: 9,
+                  textAlign: selectedLanguage == 'Urdu'
+                      ? TextAlign.right
+                      : TextAlign.start,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: 'Enter Text Here...',
+                    hintText: selectedLanguage == 'Urdu'
+                        ? '...یہاں پر اردو لکھیں'
+                        : 'Enter Text Here...',
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18)),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     // Logic for generating summary
@@ -78,10 +84,10 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     style: TextStyle(color: Colors.orange),
                   ),
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 10),
                 TextField(
                   controller: _outputController,
-                  maxLines: 10,
+                  maxLines: 9,
                   readOnly: true,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,

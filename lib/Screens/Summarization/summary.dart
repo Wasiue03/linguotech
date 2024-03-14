@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linguotech/widgets/Navigation_bar.dart';
 import 'package:linguotech/widgets/icons.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
 
@@ -95,6 +96,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 

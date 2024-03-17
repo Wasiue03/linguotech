@@ -14,10 +14,19 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.account_box),
+          label: 'Account',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.summarize_sharp),
           label: 'Summary',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.translate_rounded),
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.history),
@@ -41,12 +50,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   void navigateTo(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/summary');
+        Navigator.pushReplacementNamed(context, '/account');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/history');
+        Navigator.pushReplacementNamed(context, '/summary');
         break;
       case 2:
+        Navigator.pushReplacementNamed(context, '/settings');
+        break;
+      case 3:
         Navigator.pushReplacementNamed(context, '/settings');
         break;
     }

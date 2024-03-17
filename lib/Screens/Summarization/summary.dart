@@ -37,7 +37,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 28, 56, 105),
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(

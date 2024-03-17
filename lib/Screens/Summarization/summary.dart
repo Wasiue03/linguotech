@@ -145,7 +145,6 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                 onPressed: () async {
                   // Call a method to fetch summary from the provided link
                   String summary = await fetchSummaryFromLink(url);
-                  print(summary);
                   _outputController.text = summary;
                   Navigator.of(context).pop(); // Close dialog
                 },
@@ -171,11 +170,10 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        String summary = data['summary']; // Extract summary from response
+        String summary = data['summary'];
+        print(summary); // Extract summary from response
         // Set the summary text to the output controller
-        setState(() {
-          _outputController.text = summary;
-        });
+
         return summary;
       } else {
         throw Exception('Failed to fetch summary: ${response.reasonPhrase}');

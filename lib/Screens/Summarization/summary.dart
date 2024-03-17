@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/icons.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SummaryGenerator extends StatelessWidget {
   @override
@@ -25,7 +27,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _inputController = TextEditingController();
   TextEditingController _outputController = TextEditingController();
   String selectedLanguage = 'Urdu';
-  String _webLink = '';
+  String url = '';
 
   @override
   Widget build(BuildContext context) {
@@ -126,25 +128,60 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Enter Web Link'),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                _webLink = value;
-              });
-            },
-            decoration: InputDecoration(hintText: 'Paste or write web link'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    url = value;
+                  });
+                },
+                decoration:
+                    InputDecoration(hintText: 'Paste or write web link'),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  // Call a method to fetch summary from the provided link
+                  String summary = await fetchSummaryFromLink(url);
+                  print(summary);
+                  _outputController.text = summary;
+                  Navigator.of(context).pop(); // Close dialog
+                },
+                child: Text('Generate Summary'),
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Submit'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Perform actions with _webLink
-              },
-            ),
-          ],
         );
       },
     );
+  }
+
+  Future<String> fetchSummaryFromLink(String url) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var body = json.encode({'url': url}); // Encode the URL as JSON
+      var response = await http.post(
+        Uri.parse(
+            'http://10.0.2.2:5000/summary'), // Replace with your server address
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        String summary = data['summary']; // Extract summary from response
+        // Set the summary text to the output controller
+        setState(() {
+          _outputController.text = summary;
+        });
+        return summary;
+      } else {
+        throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      return 'Error: $error';
+    }
   }
 }

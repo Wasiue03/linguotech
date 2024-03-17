@@ -19,7 +19,7 @@ class TranslateLogic {
         return await response.stream.bytesToString();
       } else if (response.statusCode == 500) {
         // Handle the case when the server returns HTTP status code 500
-        return 'Unknown Vocabulary';
+        return 'Unknown ';
       } else {
         // Return an error message if the request was not successful
         return 'Error: ${response.reasonPhrase}';

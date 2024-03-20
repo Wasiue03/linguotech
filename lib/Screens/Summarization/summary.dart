@@ -75,12 +75,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Logic for generating summary
                     String inputText = _inputController.text;
                     // Placeholder logic for summary generation
-                    String summary = generateSummary(inputText);
-                    _outputController.text = summary;
+                    String EngSummary = await fetchEnglishSummary(inputText);
+                    _outputController.text = EngSummary;
                   },
                   child: Text(
                     'Generate',
@@ -110,11 +110,11 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   }
 
   // Placeholder function for generating summary
-  String generateSummary(String inputText) {
-    // Here you can implement your summary generation logic
-    // For now, let's just return the input text
-    return inputText;
-  }
+  // String generateSummary(String inputText) {
+  //   // Here you can implement your summary generation logic
+  //   // For now, let's just return the input text
+  //   return inputText;
+  // }
 
   void changeLanguage(String language) {
     setState(() {
@@ -175,6 +175,30 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
         // Set the summary text to the output controller
 
         return summary;
+      } else {
+        throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      return 'Error: $error';
+    }
+  }
+
+  Future<String> fetchEnglishSummary(String text) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var body = json.encode({'text': text});
+      var response = await http.post(
+        Uri.parse(
+            'http://10.0.2.2:5000/summarize'), // Replace with your server address
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        String EngSummary = data['summary'];
+        print(EngSummary); // Extract summary from response
+        return EngSummary;
       } else {
         throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
       }

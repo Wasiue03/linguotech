@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) =>
-            SignInScreen(), // Replace SignInScreen with your initial screen
+            SummaryGeneratorScreen(), // Replace SignInScreen with your initial screen
         '/translation': (context) => TranslationScreen(),
         '/login': (context) => SignInScreen(),
         '/signup': (context) => RegisterScreen(),

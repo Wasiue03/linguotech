@@ -15,18 +15,19 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: const [
+      selectedItemColor: Colors.orange, // Color for selected item
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_box),
-          label: 'Account',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.summarize_sharp),
+          icon: Icon(Icons.summarize_rounded),
           label: 'Summary',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.camera_alt_rounded),
+          label: 'Camera',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.translate_rounded),
-          label: '',
+          label: 'Translate',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.history),
@@ -44,21 +45,28 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         });
         navigateTo(index, context);
       },
+
+      // Disable default BottomNavigationBar's selected item underline
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
     );
   }
 
   void navigateTo(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/account');
-        break;
-      case 1:
         Navigator.pushReplacementNamed(context, '/summary');
         break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/camera');
+        break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/settings');
+        Navigator.pushReplacementNamed(context, '/translation');
         break;
       case 3:
+        Navigator.pushReplacementNamed(context, '/history');
+        break;
+      case 4:
         Navigator.pushReplacementNamed(context, '/settings');
         break;
     }

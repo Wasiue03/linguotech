@@ -111,8 +111,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
 
   // Placeholder function for generating summary
   // String generateSummary(String inputText) {
-  //   // Here you can implement your summary generation logic
-  //   // For now, let's just return the input text
+  // Here you can implement your summary generation logic
+  // For now, let's just return the input text
   //   return inputText;
   // }
 
@@ -127,7 +127,10 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Enter Web Link'),
+          title: Text(
+            'Enter Web Link',
+            textAlign: TextAlign.center,
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -137,8 +140,9 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     url = value;
                   });
                 },
-                decoration:
-                    InputDecoration(hintText: 'Paste or write web link'),
+                decoration: InputDecoration(
+                  hintText: 'Enter Link',
+                ),
               ),
               SizedBox(height: 10),
               ElevatedButton(

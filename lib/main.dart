@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:linguotech/Components/Landing_page.dart';
-import 'package:linguotech/Components/home_page.dart';
 import 'package:linguotech/Screens/Login/user_login.dart';
 import 'package:linguotech/Screens/Register_Screen/user_register.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) =>
-            SummaryGeneratorScreen(), // Replace SignInScreen with your initial screen
+            TranslationScreen(), // Replace SignInScreen with your initial screen
         '/translation': (context) => TranslationScreen(),
         '/login': (context) => SignInScreen(),
         '/signup': (context) => RegisterScreen(),

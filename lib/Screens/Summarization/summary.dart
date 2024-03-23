@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
-import 'package:linguotech/widgets/icons.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -28,6 +28,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _outputController = TextEditingController();
   String selectedLanguage = 'Urdu';
   String url = '';
+  String _errorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +49,19 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
           child: Container(
             child: Column(
               children: [
+                // Language selector widget
                 LanguageSelector(selectedLanguage, changeLanguage),
                 SizedBox(height: 10),
+                // GestureDetector for link input dialog
                 GestureDetector(
                   onTap: () {
                     _showLinkInputDialog(context);
                   },
-                  child: LinkIcon(),
+                  child: Icon(Icons.link),
                 ),
                 SizedBox(height: 10),
-                TextField(
+                // Text input field
+                TextFormField(
                   controller: _inputController,
                   maxLines: 9,
                   textAlign: selectedLanguage == 'Urdu'
@@ -71,9 +75,35 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
                   ),
+                  onChanged: (value) {
+                    // Check if the entered text contains English characters
+                    if (selectedLanguage == 'Urdu' && _containsEnglish(value)) {
+                      setState(() {
+                        _errorText = 'Only Urdu characters are allowed';
+                      });
+                    } else if (selectedLanguage == 'English' &&
+                        _containsNonEnglish(value)) {
+                      setState(() {
+                        _errorText = 'Only English characters are allowed';
+                      });
+                    } else {
+                      setState(() {
+                        _errorText = '';
+                      });
+                    }
+                  },
+                  // Validation to prevent form submission if error exists
+                  validator: (value) {
+                    if (_errorText.isNotEmpty) {
+                      return _errorText;
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 10),
+                // Button to generate summary
                 ElevatedButton(
                   onPressed: () async {
                     // Logic for generating summary
@@ -88,7 +118,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                TextField(
+                // Output text field
+                TextFormField(
                   controller: _outputController,
                   maxLines: 9,
                   readOnly: true,
@@ -105,8 +136,19 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
           ),
         ),
       ),
+      // Custom bottom navigation bar widget
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
+  }
+
+  bool _containsEnglish(String text) {
+    // Regular expression to check if text contains English characters
+    return RegExp(r'[a-zA-Z]').hasMatch(text);
+  }
+
+  bool _containsNonEnglish(String text) {
+    // Checks if the text contains characters other than English alphabets and spaces
+    return RegExp(r'[^a-zA-Z ]').hasMatch(text);
   }
 
   // Placeholder function for generating summary
@@ -119,6 +161,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   void changeLanguage(String language) {
     setState(() {
       selectedLanguage = language;
+      _errorText = '';
     });
   }
 

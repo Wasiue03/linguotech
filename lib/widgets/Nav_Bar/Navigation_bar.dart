@@ -16,6 +16,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.orange, // Color for selected item
+      unselectedItemColor: Colors.black, // Color for unselected items
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.summarize_rounded),
@@ -45,7 +46,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         });
         navigateTo(index, context);
       },
-
       // Disable default BottomNavigationBar's selected item underline
       showSelectedLabels: true,
       showUnselectedLabels: true,
@@ -53,6 +53,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   void navigateTo(int index, BuildContext context) {
+    print('Selected index: $index');
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/summary');
@@ -69,6 +70,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       case 4:
         Navigator.pushReplacementNamed(context, '/settings');
         break;
+      default:
+        print('Invalid index');
     }
   }
 }

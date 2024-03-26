@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:linguotech/Screens/pdf.dart';
+import 'package:linguotech/model/Summarization/summary_model.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class SummaryGenerator extends StatelessWidget {
   @override
@@ -57,53 +57,79 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   onTap: () {
                     _showLinkInputDialog(context);
                   },
-                  child: Icon(Icons.link),
-                ),
-                SizedBox(height: 10),
-                // Text input field
-                TextFormField(
-                  controller: _inputController,
-                  maxLines: 9,
-                  textAlign: selectedLanguage == 'Urdu'
-                      ? TextAlign.right
-                      : TextAlign.start,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: selectedLanguage == 'Urdu'
-                        ? '...یہاں پر اردو لکھیں'
-                        : 'Enter Text Here...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(Icons.link),
+                      SizedBox(
+                          width: 10), // Adjust spacing between icons if needed
+                      IconButton(
+                        icon: Icon(Icons.add_circle_rounded),
+                        onPressed: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PDFPickerScreen()),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  onChanged: (value) {
-                    // Check if the entered text contains English characters
-                    if (selectedLanguage == 'Urdu' && _containsEnglish(value)) {
-                      setState(() {
-                        _errorText = 'Only Urdu characters are allowed';
-                      });
-                    } else if (selectedLanguage == 'English' &&
-                        _containsNonEnglish(value)) {
-                      setState(() {
-                        _errorText = 'Only English characters are allowed';
-                      });
-                    } else {
-                      setState(() {
-                        _errorText = '';
-                      });
-                    }
-                  },
-                  // Validation to prevent form submission if error exists
-                  validator: (value) {
-                    if (_errorText.isNotEmpty) {
-                      return _errorText;
-                    }
-                    return null;
-                  },
+                ),
+
+                SizedBox(height: 10),
+// Text input field
+                Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _inputController,
+                      maxLines: 9,
+                      textAlign: selectedLanguage == 'Urdu'
+                          ? TextAlign.right
+                          : TextAlign.start,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        hintText: selectedLanguage == 'Urdu'
+                            ? '...یہاں پر اردو لکھیں'
+                            : 'Enter Text Here...',
+                        border: InputBorder.none, // Remove border
+                        errorText: _errorText.isNotEmpty ? _errorText : null,
+                      ),
+                      onChanged: (value) {
+                        // Check if the entered text contains English characters
+                        if (selectedLanguage == 'Urdu' &&
+                            _containsEnglish(value)) {
+                          setState(() {
+                            _errorText = 'Only Urdu characters are allowed';
+                          });
+                        } else if (selectedLanguage == 'English' &&
+                            _containsNonEnglish(value)) {
+                          setState(() {
+                            _errorText = 'Only English characters are allowed';
+                          });
+                        } else {
+                          setState(() {
+                            _errorText = '';
+                          });
+                        }
+                      },
+                      // Validation to prevent form submission if error exists
+                      validator: (value) {
+                        if (_errorText.isNotEmpty) {
+                          return _errorText;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 ),
                 SizedBox(height: 10),
-                // Button to generate summary
+// Button to generate summary
                 ElevatedButton(
                   onPressed: () async {
                     // Logic for generating summary
@@ -118,17 +144,25 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                // Output text field
-                TextFormField(
-                  controller: _outputController,
-                  maxLines: 9,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Summary',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18)),
+// Output text field
+                Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _outputController,
+                      maxLines: 9,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        labelText: 'Summary',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        border: InputBorder.none, // Remove border
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -150,13 +184,6 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
     // Checks if the text contains characters other than English alphabets and spaces
     return RegExp(r'[^a-zA-Z ]').hasMatch(text);
   }
-
-  // Placeholder function for generating summary
-  // String generateSummary(String inputText) {
-  // Here you can implement your summary generation logic
-  // For now, let's just return the input text
-  //   return inputText;
-  // }
 
   void changeLanguage(String language) {
     setState(() {
@@ -191,8 +218,9 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
               ElevatedButton(
                 onPressed: () async {
                   // Call a method to fetch summary from the provided link
-                  String summary = await fetchSummaryFromLink(url);
-                  _outputController.text = summary;
+                  String Web_Summary = await fetchSummaryFromLink(url);
+                  _outputController.text = Web_Summary;
+                  print("Yes");
                   Navigator.of(context).pop(); // Close dialog
                 },
                 child: Text('Generate Summary'),
@@ -202,55 +230,5 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
         );
       },
     );
-  }
-
-  Future<String> fetchSummaryFromLink(String url) async {
-    try {
-      var headers = {'Content-Type': 'application/json'};
-      var body = json.encode({'url': url}); // Encode the URL as JSON
-      var response = await http.post(
-        Uri.parse(
-            'http://10.0.2.2:5000/summary'), // Replace with your server address
-        headers: headers,
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        String summary = data['summary'];
-        print(summary); // Extract summary from response
-        // Set the summary text to the output controller
-
-        return summary;
-      } else {
-        throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
-      }
-    } catch (error) {
-      return 'Error: $error';
-    }
-  }
-
-  Future<String> fetchEnglishSummary(String text) async {
-    try {
-      var headers = {'Content-Type': 'application/json'};
-      var body = json.encode({'text': text});
-      var response = await http.post(
-        Uri.parse(
-            'http://10.0.2.2:5000/summarize'), // Replace with your server address
-        headers: headers,
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        String EngSummary = data['summary'];
-        print(EngSummary); // Extract summary from response
-        return EngSummary;
-      } else {
-        throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
-      }
-    } catch (error) {
-      return 'Error: $error';
-    }
   }
 }

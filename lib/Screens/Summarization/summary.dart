@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:linguotech/Screens/pdf.dart';
@@ -137,6 +139,10 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     // Placeholder logic for summary generation
                     String EngSummary = await fetchEnglishSummary(inputText);
                     _outputController.text = EngSummary;
+
+                    // Logic for generating summary
+                    String urdu_Summary = await fetchUrduSummary(inputText);
+                    _outputController.text = urdu_Summary;
                   },
                   child: Text(
                     'Generate',
@@ -187,6 +193,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
 
   void changeLanguage(String language) {
     setState(() {
+      if ((selectedLanguage == 'English' && language == 'Urdu') ||
+          (selectedLanguage == 'Urdu' && language == 'English')) {
+        // Clear input and output fields when switching between Urdu and English
+        _inputController.clear();
+        _outputController.clear();
+      }
       selectedLanguage = language;
       _errorText = '';
     });
@@ -230,5 +242,29 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
         );
       },
     );
+  }
+
+  Future<String> fetchUrduSummary(String text) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var body = json.encode({'text': text});
+      var response = await http.post(
+        Uri.parse(
+            'http://10.0.2.2:5000/generate_summary'), // Replace with your server address
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        String urduSummary = data['summary'];
+        print(urduSummary); // Extract summary from response
+        return urduSummary;
+      } else {
+        throw Exception('Failed to fetch summary: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      return 'Error: $error';
+    }
   }
 }

@@ -12,13 +12,14 @@ class TranslateBody extends StatefulWidget {
 class _TranslateBodyState extends State<TranslateBody> {
   String selectedLanguage = 'Urdu';
   String translatedText = '';
+  bool _isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        LanguageSelector(selectedLanguage, changeLanguage),
+        LanguageSelector(selectedLanguage, changeLanguage, _isDarkMode),
         UrduTextCard(),
         EnglishTextCard(translatedText),
       ],

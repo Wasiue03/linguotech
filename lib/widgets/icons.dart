@@ -10,7 +10,7 @@ class LinkIcon extends StatelessWidget {
         Icon(Icons.link),
         SizedBox(width: 5),
         Text(
-          'Add link here',
+          'Upload link ',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ],

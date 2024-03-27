@@ -1,11 +1,12 @@
-// widgets/language_selector.dart
 import 'package:flutter/material.dart';
 
 class LanguageSelector extends StatelessWidget {
   final String selectedLanguage;
   final Function(String) onChangeLanguage;
+  final bool isDarkMode;
 
-  LanguageSelector(this.selectedLanguage, this.onChangeLanguage);
+  LanguageSelector(
+      this.selectedLanguage, this.onChangeLanguage, this.isDarkMode);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,10 @@ class LanguageSelector extends StatelessWidget {
                     style: TextStyle(
                       color: selectedLanguage == 'Urdu'
                           ? Colors.orange
-                          : Colors.black,
+                          : isDarkMode
+                              ? Colors.white
+                              : Colors
+                                  .black, // Adjust label color based on dark mode
                       fontWeight: FontWeight.bold,
                       decoration: selectedLanguage == 'Urdu'
                           ? TextDecoration.underline
@@ -49,7 +53,9 @@ class LanguageSelector extends StatelessWidget {
               Icon(
                 Icons.compare_arrows,
                 size: 30,
-                color: Colors.black,
+                color: isDarkMode
+                    ? Colors.white
+                    : Colors.black, // Adjust icon color based on dark mode
               ),
               SizedBox(width: 20),
               GestureDetector(
@@ -73,7 +79,10 @@ class LanguageSelector extends StatelessWidget {
                     style: TextStyle(
                       color: selectedLanguage == 'English'
                           ? Colors.orange
-                          : Colors.black,
+                          : isDarkMode
+                              ? Colors.white
+                              : Colors
+                                  .black, // Adjust label color based on dark mode
                       fontWeight: FontWeight.bold,
                       decoration: selectedLanguage == 'English'
                           ? TextDecoration.underline

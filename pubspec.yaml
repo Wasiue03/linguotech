@@ -52,6 +52,7 @@ dependencies:
   flutter_tts: ^3.8.5
   shared_preferences: ^2.2.2
   open_file: ^3.2.1
+  provider: ^6.1.2
   
 
 dev_dependencies:

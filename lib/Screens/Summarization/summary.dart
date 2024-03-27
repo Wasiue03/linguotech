@@ -31,10 +31,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   String selectedLanguage = 'Urdu';
   String url = '';
   String _errorText = '';
-
+  bool _isDarkMode = false;
   @override
   Widget build(BuildContext context) {
+    _isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
+      backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
         title: Center(
           child: Text(
@@ -42,8 +44,6 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 28, 56, 105),
-        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,7 +52,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
             child: Column(
               children: [
                 // Language selector widget
-                LanguageSelector(selectedLanguage, changeLanguage),
+                LanguageSelector(selectedLanguage, changeLanguage, _isDarkMode),
                 SizedBox(height: 10),
                 // GestureDetector for link input dialog
                 GestureDetector(
@@ -62,11 +62,17 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Icon(Icons.link),
+                      Icon(
+                        Icons.link,
+                        color: Colors.white,
+                      ),
                       SizedBox(
                           width: 10), // Adjust spacing between icons if needed
                       IconButton(
-                        icon: Icon(Icons.add_circle_rounded),
+                        icon: Icon(
+                          Icons.add_circle_rounded,
+                          color: Colors.white,
+                        ),
                         onPressed: () async {
                           Navigator.push(
                             context,
@@ -94,11 +100,13 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                       textAlign: selectedLanguage == 'Urdu'
                           ? TextAlign.right
                           : TextAlign.start,
+
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         hintText: selectedLanguage == 'Urdu'
                             ? '...یہاں پر اردو لکھیں'
                             : 'Enter Text Here...',
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none, // Remove border
                         errorText: _errorText.isNotEmpty ? _errorText : null,
                       ),
@@ -146,9 +154,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                   },
                   child: Text(
                     'Generate',
-                    style: TextStyle(color: Colors.orange),
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.orange,
+                    ),
                   ),
                 ),
+
                 SizedBox(height: 10),
 // Output text field
                 Card(

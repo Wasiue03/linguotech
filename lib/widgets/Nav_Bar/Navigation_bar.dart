@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:linguotech/services/theme_provider.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
@@ -13,10 +15,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
+    final isDarkTheme = themeProvider.darkTheme;
+
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.orange, // Color for selected item
-      unselectedItemColor: Colors.black, // Color for unselected items
+      selectedItemColor: isDarkTheme ? Colors.orange : Colors.blue,
+      unselectedItemColor: isDarkTheme ? Colors.white : Colors.black,
+      backgroundColor: isDarkTheme ? Colors.black : Colors.white,
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.summarize_rounded),
@@ -46,7 +52,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         });
         navigateTo(index, context);
       },
-      // Disable default BottomNavigationBar's selected item underline
       showSelectedLabels: true,
       showUnselectedLabels: true,
     );
@@ -68,7 +73,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/history');
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, '/settings');
+        Navigator.pushReplacementNamed(context, '/');
         break;
       default:
         print('Invalid index');

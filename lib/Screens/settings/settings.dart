@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:linguotech/services/theme_provider.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
+import 'package:linguotech/services/language_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -11,75 +12,79 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    bool _isEnglishSelected = true;
-    // Access the DarkThemeProvider instance using Provider.of
-    DarkThemeProvider themeProvider =
-        Provider.of<DarkThemeProvider>(context, listen: false);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Theme',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('Dark Mode'),
-                trailing: Switch(
-                  value: themeProvider.darkTheme,
-                  onChanged: (value) {
-                    setState(() {
-                      themeProvider.darkTheme = value;
-                    });
-                  },
-                  inactiveTrackColor:
-                      Colors.grey[400], // Change switch color for white mode
-                ),
+    return Consumer2<DarkThemeProvider, LanguageProvider>(
+      builder: (context, themeProvider, languageProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Center(
+              child: Text(
+                languageProvider.getLocalizedString('Settings'),
               ),
             ),
-            Text(
-              'Language',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('English'),
-                leading: Radio(
-                  value: true,
-                  groupValue: _isEnglishSelected,
-                  onChanged: (value) {
-                    setState(() {
-                      _isEnglishSelected = value!;
-                    });
-                  },
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  languageProvider.getLocalizedString('Theme'),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('Urdu'),
-                leading: Radio(
-                  value: false,
-                  groupValue: _isEnglishSelected,
-                  onChanged: (value) {
-                    setState(() {
-                      _isEnglishSelected = value!;
-                    });
-                  },
+                Card(
+                  child: ListTile(
+                    title: Text(
+                      languageProvider.getLocalizedString('Dark Mode'),
+                    ),
+                    trailing: Switch(
+                      value: themeProvider.darkTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          themeProvider.darkTheme = value;
+                        });
+                      },
+                      inactiveTrackColor: Colors.grey[400],
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  languageProvider.getLocalizedString('Language'),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text(
+                      languageProvider.getLocalizedString('English'),
+                    ),
+                    leading: Radio(
+                      value: 'English',
+                      groupValue: languageProvider.selectedLanguage,
+                      onChanged: (value) {
+                        languageProvider.setSelectedLanguage('English');
+                      },
+                    ),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text(
+                      languageProvider.getLocalizedString('Urdu'),
+                    ),
+                    leading: Radio(
+                      value: 'Urdu',
+                      groupValue: languageProvider.selectedLanguage,
+                      onChanged: (value) {
+                        languageProvider.setSelectedLanguage('Urdu');
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+          ),
+          bottomNavigationBar: CustomBottomNavigationBar(),
+        );
+      },
     );
   }
 

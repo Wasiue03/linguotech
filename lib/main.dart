@@ -107,7 +107,9 @@ class MyApp extends StatelessWidget {
             '/translation': (context) => TranslationScreen(),
             '/login': (context) => SignInScreen(),
             '/signup': (context) => RegisterScreen(),
-            '/summary': (context) => SummaryGeneratorScreen(),
+            '/summary': (context) => SummaryGeneratorScreen(
+                  extractedText: '',
+                ),
           },
         );
       },

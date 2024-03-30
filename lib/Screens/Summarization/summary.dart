@@ -15,12 +15,17 @@ class SummaryGenerator extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SummaryGeneratorScreen(),
+      home: SummaryGeneratorScreen(
+        extractedText: '',
+      ),
     );
   }
 }
 
 class SummaryGeneratorScreen extends StatefulWidget {
+  final String extractedText;
+
+  SummaryGeneratorScreen({required this.extractedText});
   @override
   _SummaryGeneratorScreenState createState() => _SummaryGeneratorScreenState();
 }
@@ -32,6 +37,17 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   String url = '';
   String _errorText = '';
   bool _isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (selectedLanguage == 'English') {
+      _inputController.text = widget.extractedText;
+    } else if (selectedLanguage == 'Urdu') {
+      _inputController.text = _reverseText(widget.extractedText);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -74,6 +90,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                           color: Colors.white,
                         ),
                         onPressed: () async {
+                          // TextEditingController summaryController =
+                          //     TextEditingController();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -110,6 +128,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                         border: InputBorder.none, // Remove border
                         errorText: _errorText.isNotEmpty ? _errorText : null,
                       ),
+
                       onChanged: (value) {
                         // Check if the entered text contains English characters
                         if (selectedLanguage == 'Urdu' &&
@@ -138,6 +157,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 10),
 // Button to generate summary
                 ElevatedButton(
@@ -190,6 +210,26 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       // Custom bottom navigation bar widget
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
+  }
+
+  // Function to reverse the text string
+// Function to reverse the text string
+  String _reverseText(String text) {
+    List<String> lines = text.split('\n');
+    List<String> reversedLines = [];
+
+    // Reverse the order of lines
+    for (int i = lines.length - 1; i >= 0; i--) {
+      String line = lines[i];
+      String reversedLine = line.split(' ').reversed.join(' ');
+      reversedLines.add(reversedLine);
+    }
+
+    // Join the reversed lines with newline characters
+    String reversedText = reversedLines.join('\n');
+
+    // Reverse the direction of the text to be right-to-left
+    return reversedText.split('').reversed.join('');
   }
 
   bool _containsEnglish(String text) {

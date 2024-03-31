@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:linguotech/Screens/Drawer/drawer.dart';
 import 'package:linguotech/Screens/pdf.dart';
 import 'package:linguotech/model/Summarization/summary_model.dart';
 import 'package:linguotech/services/language_provider.dart';
@@ -35,7 +36,7 @@ class SummaryGeneratorScreen extends StatefulWidget {
 class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _inputController = TextEditingController();
   TextEditingController _outputController = TextEditingController();
-  String selectedLanguage = 'Urdu';
+  String selectedLanguage = 'English';
   String url = '';
   String _errorText = '';
   bool _isDarkMode = false;
@@ -57,13 +58,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
     return Scaffold(
       backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            languageProvider.getLocalizedString('Text Summarization'),
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          languageProvider.getLocalizedString('Text Summarization'),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
+      drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(13.0),
@@ -167,15 +167,20 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
 // Button to generate summary
                 ElevatedButton(
                   onPressed: () async {
-                    // Logic for generating summary
                     String inputText = _inputController.text;
-                    // Placeholder logic for summary generation
-                    String EngSummary = await fetchEnglishSummary(inputText);
-                    _outputController.text = EngSummary;
+                    String _selectedLanguage =
+                        selectedLanguage; // Assuming you have a variable to store the selected language
 
-                    // Logic for generating summary
-                    String urdu_Summary = await fetchUrduSummary(inputText);
-                    _outputController.text = urdu_Summary;
+                    if (_selectedLanguage == 'English') {
+                      String engSummary = await fetchEnglishSummary(inputText);
+                      _outputController.text = engSummary;
+                    } else if (_selectedLanguage == 'Urdu') {
+                      String urduSummary = await fetchUrduSummary(inputText);
+                      _outputController.text = urduSummary;
+                    } else {
+                      // Handle unsupported language
+                      _outputController.text = 'Unsupported language';
+                    }
                   },
                   child: Text(
                     languageProvider.getLocalizedString('Generate'),
@@ -258,6 +263,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       }
       selectedLanguage = language;
       _errorText = '';
+      // Automatically set the input text controller based on the selected language
+      if (selectedLanguage == 'English') {
+        _inputController.text = widget.extractedText;
+      } else if (selectedLanguage == 'Urdu') {
+        _inputController.text = _reverseText(widget.extractedText);
+      }
     });
   }
 

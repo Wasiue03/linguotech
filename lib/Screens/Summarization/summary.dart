@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:linguotech/Screens/pdf.dart';
 import 'package:linguotech/model/Summarization/summary_model.dart';
+import 'package:linguotech/services/language_provider.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
+import 'package:provider/provider.dart';
 
 class SummaryGenerator extends StatelessWidget {
   @override
@@ -50,13 +52,14 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     _isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
         title: Center(
           child: Text(
-            'Text Summarization',
+            languageProvider.getLocalizedString('Text Summarization'),
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -80,14 +83,14 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     children: [
                       Icon(
                         Icons.link,
-                        color: Colors.white,
+                        color: Colors.orange,
                       ),
                       SizedBox(
                           width: 10), // Adjust spacing between icons if needed
                       IconButton(
                         icon: Icon(
                           Icons.add_circle_rounded,
-                          color: Colors.white,
+                          color: Colors.orange,
                         ),
                         onPressed: () async {
                           // TextEditingController summaryController =
@@ -134,12 +137,14 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                         if (selectedLanguage == 'Urdu' &&
                             _containsEnglish(value)) {
                           setState(() {
-                            _errorText = 'Only Urdu characters are allowed';
+                            _errorText = languageProvider.getLocalizedString(
+                                'Only Urdu characters are allowed');
                           });
                         } else if (selectedLanguage == 'English' &&
                             _containsNonEnglish(value)) {
                           setState(() {
-                            _errorText = 'Only English characters are allowed';
+                            _errorText = languageProvider.getLocalizedString(
+                                'Only English characters are allowed');
                           });
                         } else {
                           setState(() {
@@ -173,7 +178,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     _outputController.text = urdu_Summary;
                   },
                   child: Text(
-                    'Generate',
+                    languageProvider.getLocalizedString('Generate'),
                     style: TextStyle(
                       color: _isDarkMode ? Colors.white : Colors.orange,
                     ),
@@ -195,7 +200,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                       readOnly: true,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        labelText: 'Summary',
+                        labelText:
+                            languageProvider.getLocalizedString('Summary'),
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         border: InputBorder.none, // Remove border
                       ),

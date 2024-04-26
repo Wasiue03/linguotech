@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:linguotech/Screens/Drawer/drawer.dart';
 import 'package:linguotech/Screens/pdf.dart';
 import 'package:linguotech/model/Summarization/summary_model.dart';
+import 'package:linguotech/services/language_provider.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 import 'package:linguotech/widgets/language_selectot.dart';
+import 'package:provider/provider.dart';
 
 class SummaryGenerator extends StatelessWidget {
   @override
@@ -15,12 +18,17 @@ class SummaryGenerator extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SummaryGeneratorScreen(),
+      home: SummaryGeneratorScreen(
+        extractedText: '',
+      ),
     );
   }
 }
 
 class SummaryGeneratorScreen extends StatefulWidget {
+  final String extractedText;
+
+  SummaryGeneratorScreen({required this.extractedText});
   @override
   _SummaryGeneratorScreenState createState() => _SummaryGeneratorScreenState();
 }
@@ -28,23 +36,34 @@ class SummaryGeneratorScreen extends StatefulWidget {
 class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
   TextEditingController _inputController = TextEditingController();
   TextEditingController _outputController = TextEditingController();
-  String selectedLanguage = 'Urdu';
+  String selectedLanguage = 'English';
   String url = '';
   String _errorText = '';
   bool _isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (selectedLanguage == 'English') {
+      _inputController.text = widget.extractedText;
+    } else if (selectedLanguage == 'Urdu') {
+      _inputController.text = _reverseText(widget.extractedText);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     _isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Text Summarization',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          languageProvider.getLocalizedString('Text Summarization'),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
+      drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(13.0),
@@ -64,16 +83,18 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     children: [
                       Icon(
                         Icons.link,
-                        color: Colors.white,
+                        color: Colors.orange,
                       ),
                       SizedBox(
                           width: 10), // Adjust spacing between icons if needed
                       IconButton(
                         icon: Icon(
                           Icons.add_circle_rounded,
-                          color: Colors.white,
+                          color: Colors.orange,
                         ),
                         onPressed: () async {
+                          // TextEditingController summaryController =
+                          //     TextEditingController();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -110,17 +131,20 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                         border: InputBorder.none, // Remove border
                         errorText: _errorText.isNotEmpty ? _errorText : null,
                       ),
+
                       onChanged: (value) {
                         // Check if the entered text contains English characters
                         if (selectedLanguage == 'Urdu' &&
                             _containsEnglish(value)) {
                           setState(() {
-                            _errorText = 'Only Urdu characters are allowed';
+                            _errorText = languageProvider.getLocalizedString(
+                                'Only Urdu characters are allowed');
                           });
                         } else if (selectedLanguage == 'English' &&
                             _containsNonEnglish(value)) {
                           setState(() {
-                            _errorText = 'Only English characters are allowed';
+                            _errorText = languageProvider.getLocalizedString(
+                                'Only English characters are allowed');
                           });
                         } else {
                           setState(() {
@@ -138,22 +162,28 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 10),
 // Button to generate summary
                 ElevatedButton(
                   onPressed: () async {
-                    // Logic for generating summary
                     String inputText = _inputController.text;
-                    // Placeholder logic for summary generation
-                    String EngSummary = await fetchEnglishSummary(inputText);
-                    _outputController.text = EngSummary;
+                    String _selectedLanguage =
+                        selectedLanguage; // Assuming you have a variable to store the selected language
 
-                    // Logic for generating summary
-                    String urdu_Summary = await fetchUrduSummary(inputText);
-                    _outputController.text = urdu_Summary;
+                    if (_selectedLanguage == 'English') {
+                      String engSummary = await fetchEnglishSummary(inputText);
+                      _outputController.text = engSummary;
+                    } else if (_selectedLanguage == 'Urdu') {
+                      String urduSummary = await fetchUrduSummary(inputText);
+                      _outputController.text = urduSummary;
+                    } else {
+                      // Handle unsupported language
+                      _outputController.text = 'Unsupported language';
+                    }
                   },
                   child: Text(
-                    'Generate',
+                    languageProvider.getLocalizedString('Generate'),
                     style: TextStyle(
                       color: _isDarkMode ? Colors.white : Colors.orange,
                     ),
@@ -175,7 +205,8 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                       readOnly: true,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        labelText: 'Summary',
+                        labelText:
+                            languageProvider.getLocalizedString('Summary'),
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         border: InputBorder.none, // Remove border
                       ),
@@ -190,6 +221,26 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       // Custom bottom navigation bar widget
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
+  }
+
+  // Function to reverse the text string
+// Function to reverse the text string
+  String _reverseText(String text) {
+    List<String> lines = text.split('\n');
+    List<String> reversedLines = [];
+
+    // Reverse the order of lines
+    for (int i = lines.length - 1; i >= 0; i--) {
+      String line = lines[i];
+      String reversedLine = line.split(' ').reversed.join(' ');
+      reversedLines.add(reversedLine);
+    }
+
+    // Join the reversed lines with newline characters
+    String reversedText = reversedLines.join('\n');
+
+    // Reverse the direction of the text to be right-to-left
+    return reversedText.split('').reversed.join('');
   }
 
   bool _containsEnglish(String text) {
@@ -212,6 +263,12 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       }
       selectedLanguage = language;
       _errorText = '';
+      // Automatically set the input text controller based on the selected language
+      if (selectedLanguage == 'English') {
+        _inputController.text = widget.extractedText;
+      } else if (selectedLanguage == 'Urdu') {
+        _inputController.text = _reverseText(widget.extractedText);
+      }
     });
   }
 

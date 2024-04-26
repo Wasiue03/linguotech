@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:linguotech/services/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class LanguageSelector extends StatelessWidget {
   final String selectedLanguage;
@@ -10,6 +12,7 @@ class LanguageSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     return Column(
       children: [
         Container(
@@ -33,7 +36,7 @@ class LanguageSelector extends StatelessWidget {
                         : null,
                   ),
                   child: Text(
-                    'Urdu',
+                    languageProvider.getLocalizedString('Urdu'),
                     style: TextStyle(
                       color: selectedLanguage == 'Urdu'
                           ? Colors.orange
@@ -75,7 +78,7 @@ class LanguageSelector extends StatelessWidget {
                         : null,
                   ),
                   child: Text(
-                    'English',
+                    languageProvider.getLocalizedString('English'),
                     style: TextStyle(
                       color: selectedLanguage == 'English'
                           ? Colors.orange

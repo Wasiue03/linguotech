@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:linguotech/services/theme_provider.dart';
+import 'package:linguotech/services/language_provider.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<DarkThemeProvider>(context);
+    final languageProvider = Provider.of<LanguageProvider>(context);
     final isDarkTheme = themeProvider.darkTheme;
 
     return BottomNavigationBar(
@@ -26,23 +28,23 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.summarize_rounded),
-          label: 'Summary',
+          label: languageProvider.getLocalizedString('Summary'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.camera_alt_rounded),
-          label: 'Camera',
+          label: languageProvider.getLocalizedString('Camera'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.translate_rounded),
-          label: 'Translate',
+          label: languageProvider.getLocalizedString('Translate'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.history),
-          label: 'History',
+          label: languageProvider.getLocalizedString('History'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Settings',
+          label: languageProvider.getLocalizedString('Settings'),
         ),
       ],
       currentIndex: _currentIndex,
@@ -64,7 +66,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/summary');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/camera');
+        Navigator.pushReplacementNamed(context, '/Camera');
         break;
       case 2:
         Navigator.pushReplacementNamed(context, '/translation');

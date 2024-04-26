@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:linguotech/Screens/Login/user_login.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -26,7 +27,12 @@ class CustomDrawer extends StatelessWidget {
             title: Text('Logout'),
             onTap: () {
               // Add your logout functionality here
-              Navigator.pop(context); // Close the drawer
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        SignInScreen()), // Replace LoginScreen with your actual login screen widget
+              ); // Close the drawer
             },
           ),
         ],

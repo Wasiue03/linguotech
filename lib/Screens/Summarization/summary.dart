@@ -109,7 +109,6 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                 SizedBox(height: 10),
 // Text input field
                 Card(
-                  elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),
@@ -193,7 +192,6 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
                 SizedBox(height: 10),
 // Output text field
                 Card(
-                  elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),

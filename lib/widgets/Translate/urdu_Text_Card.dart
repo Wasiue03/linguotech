@@ -28,7 +28,6 @@ class _UrduTextCardState extends State<UrduTextCard> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(
-        color: Colors.white,
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Padding(
           padding: EdgeInsets.all(20),

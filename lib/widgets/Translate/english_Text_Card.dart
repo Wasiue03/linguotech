@@ -11,10 +11,9 @@ class EnglishTextCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(
-        elevation: 5,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Padding(
-          padding: EdgeInsets.all(40),
+          padding: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,12 +35,12 @@ class EnglishTextCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 40),
               Text(
                 translatedText,
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

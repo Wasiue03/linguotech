@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:linguotech/model/translation_urdu/ur_to_eng.dart';
+import 'package:provider/provider.dart';
 
 class UrduTextCard extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _UrduTextCardState extends State<UrduTextCard> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(
-        elevation: 5,
+        color: Colors.white,
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -45,28 +46,37 @@ class _UrduTextCardState extends State<UrduTextCard> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.volume_up),
+                    icon: Icon(
+                      Icons.volume_up_outlined,
+                    ),
                     onPressed: () async {
                       await speakText(urduTextController.text);
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 10),
               TextField(
                 controller: urduTextController,
                 onChanged: (value) {
                   // No need to use setState since it's a stateful widget
                 },
                 decoration: InputDecoration(
-                  hintText: 'Enter Urdu Text',
-                  alignLabelWithHint: true, // Align hint to the start
-                  border: InputBorder.none, // Remove underline
-                ),
+                    hintText: 'Enter text...',
+                    alignLabelWithHint: true, // Align hint to the start
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.black)
+
+                    // Remove underline
+                    ),
                 textAlign: TextAlign.start, // Align text to the start
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 14,
+                ),
               ),
-              SizedBox(height: 25),
+              SizedBox(
+                height: 40,
+              ),
+              SizedBox(height: 30),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -84,7 +94,6 @@ class _UrduTextCardState extends State<UrduTextCard> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),

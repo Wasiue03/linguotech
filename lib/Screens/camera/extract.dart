@@ -24,9 +24,10 @@ class _CameraState extends State<Camera> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
           child: Scaffold(
-        backgroundColor: Colors.white60,
+        backgroundColor: Colors.white,
         body: Column(
           children: [
             Container(
@@ -34,22 +35,37 @@ class _CameraState extends State<Camera> {
               width: 250,
               child: Center(
                 child: GestureDetector(
-                    onTap: () async {
-                      final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      String a = await getImageTotext(image!.path);
-                      setState(() {
-                        s = a;
-                      });
-                    },
-                    child: const Icon(
-                      Icons.file_copy,
-                    )),
+                  onTap: () async {
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    String a = await getImageTotext(image!.path);
+                    setState(() {
+                      s = a;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Select Image",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.image_rounded,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            Text(
-              s,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+            Center(
+              child: Text(
+                s,
+                style: TextStyle(color: Colors.black, fontSize: 20),
+              ),
             )
           ],
         ),

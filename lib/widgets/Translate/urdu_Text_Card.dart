@@ -2,9 +2,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:linguotech/model/translation_urdu/ur_to_eng.dart';
-import 'package:provider/provider.dart';
 
 class UrduTextCard extends StatefulWidget {
+  final Function(String) onTextTranslated;
+  final bool isEnglishSelected;
+  final bool isUrduSelected;
+
+  UrduTextCard({
+    required this.onTextTranslated,
+    required this.isEnglishSelected,
+    required this.isUrduSelected,
+  });
+
   @override
   _UrduTextCardState createState() => _UrduTextCardState();
 }
@@ -19,8 +28,6 @@ class _UrduTextCardState extends State<UrduTextCard> {
   // Function to read text aloud
   Future<void> speakText(String text) async {
     await flutterTts.speak(text);
-    // await flutterTts.setPitch(1.0);
-    // await flutterTts.setSpeechRate(0.5);
   }
 
   @override
@@ -28,7 +35,7 @@ class _UrduTextCardState extends State<UrduTextCard> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -54,45 +61,29 @@ class _UrduTextCardState extends State<UrduTextCard> {
                   ),
                 ],
               ),
-              TextField(
-                controller: urduTextController,
-                onChanged: (value) {
-                  // No need to use setState since it's a stateful widget
-                },
-                decoration: InputDecoration(
-                    hintText: 'Enter text...',
-                    alignLabelWithHint: true, // Align hint to the start
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.black)
-
-                    // Remove underline
-                    ),
-                textAlign: TextAlign.start, // Align text to the start
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              SizedBox(height: 30),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    translateText();
+              // Conditionally show TextField based on language selection
+              if (!widget.isEnglishSelected && widget.isUrduSelected)
+                TextField(
+                  controller: urduTextController,
+                  enabled: widget
+                      .isUrduSelected, // Enable/disable based on isUrduSelected
+                  onChanged: (value) {
+                    // No need to use setState since it's a stateful widget
                   },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    minimumSize: Size(10, 20),
+                  decoration: InputDecoration(
+                    hintText: 'Enter text...',
+                    alignLabelWithHint: true,
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
-                  child: Text(
-                    'Translate',
-                    style: TextStyle(fontSize: 13),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 14,
                   ),
                 ),
-              ),
+              SizedBox(
+                height: 170,
+              )
             ],
           ),
         ),
@@ -108,6 +99,9 @@ class _UrduTextCardState extends State<UrduTextCard> {
       setState(() {
         translatedText = translation;
       });
+
+      // Call the callback function with the translated text
+      widget.onTextTranslated(translation);
     } catch (error) {
       print("Translation error: $error");
       setState(() {

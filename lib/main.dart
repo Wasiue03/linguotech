@@ -56,7 +56,7 @@ import 'package:linguotech/services/language_provider.dart'; // Import LanguageP
 import 'package:linguotech/Screens/Login/user_login.dart';
 import 'package:linguotech/Screens/Register_Screen/user_register.dart';
 import 'package:linguotech/Screens/Summarization/summary.dart';
-import 'package:linguotech/Screens/Translation_Screen/translate.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 import 'package:linguotech/Screens/settings/settings.dart';
 import 'package:linguotech/firebase_options.dart';
 

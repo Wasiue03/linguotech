@@ -31,18 +31,27 @@ class TranslateLogic {
   }
 }
 
-  // Future<String> translatetext(String urduText) async {
-  //   final response = await http.post(
-  //     Uri.parse('http://10.0.2.2:5000/translate'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({'urdu_sentence': urduText}),
-  //   );
+// Future<String> translateEnglishToUrdu(String englishText) async {
+//   try {
+//     var headers = {'Content-Type': 'application/json'};
+//     var requestBody = jsonEncode({"english_sentence": 'Where are you?'});
 
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> data = json.decode(response.body);
-  //     return data['translation'];
-  //   } else {
-  //     throw Exception('Failed to load translation');
-  //   }
-  // }
+//     var response = await http.post(
+//       Uri.parse('http://10.0.2.2:5000/translate'),
+//       headers: headers,
+//       body: requestBody,
+//     );
 
+//     if (response.statusCode == 200) {
+//       // Decode the response body to get the translated Urdu text
+//       var decodedResponse = jsonDecode(response.body);
+//       return decodedResponse['translated_text'];
+//     } else {
+//       // Handle error response
+//       return 'Error: ${response.reasonPhrase}';
+//     }
+//   } catch (error) {
+//     // Handle exceptions
+//     return 'Error: $error';
+//   }
+// }

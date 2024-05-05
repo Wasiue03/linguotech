@@ -48,6 +48,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:linguotech/Screens/Translation_Screen/Ur_translate_Screen.dart';
 import 'package:linguotech/Screens/camera/extract.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,14 +105,15 @@ class MyApp extends StatelessWidget {
           theme: Styles.themeData(themeProvider.darkTheme, context),
           initialRoute: '/',
           routes: {
-            '/': (context) => SettingsScreen(),
-            '/translation': (context) => TranslationScreen(),
+            '/': (context) => EngTranslationScreen(),
+            '/english': (context) => EngTranslationScreen(),
             '/login': (context) => SignInScreen(),
             '/signup': (context) => RegisterScreen(),
             '/summary': (context) => SummaryGeneratorScreen(
                   extractedText: '',
                 ),
             '/Camera': (context) => Camera(),
+            '/urdu': (context) => UrTranslationScreen()
           },
         );
       },

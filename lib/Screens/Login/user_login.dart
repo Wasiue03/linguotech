@@ -68,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                TranslationScreen(), // Replace HomeScreen with your actual home screen widget
+                EngTranslationScreen(), // Replace HomeScreen with your actual home screen widget
           ),
         );
 

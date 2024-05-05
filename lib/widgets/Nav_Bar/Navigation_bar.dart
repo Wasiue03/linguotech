@@ -69,7 +69,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/Camera');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/translation');
+        Navigator.pushReplacementNamed(context, '/english');
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/history');

@@ -38,7 +38,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
     );
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => TranslationScreen(),
+        builder: (context) => EngTranslationScreen(),
       ),
     );
   } catch (e) {

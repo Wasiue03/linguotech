@@ -1,61 +1,31 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:linguotech/Screens/Translation_Screen/Ur_translate_Screen.dart';
-import 'package:linguotech/widgets/langauge_Screens.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 
-class EngTranslationScreen extends StatefulWidget {
+class UrTranslationScreen extends StatefulWidget {
   @override
   _TranslationScreenState createState() => _TranslationScreenState();
 }
 
-class _TranslationScreenState extends State<EngTranslationScreen> {
-  late TextEditingController inputController;
+class _TranslationScreenState extends State<UrTranslationScreen> {
+  late TextEditingController urduInputController;
+  late TextEditingController englishInputController;
   String translatedText = '';
   String error = '';
 
   @override
   void initState() {
     super.initState();
-    inputController = TextEditingController();
+    urduInputController = TextEditingController();
+    englishInputController = TextEditingController();
   }
 
   @override
   void dispose() {
-    inputController.dispose();
+    urduInputController.dispose();
+    englishInputController.dispose();
     super.dispose();
-  }
-
-  Future<void> translateText() async {
-    try {
-      var headers = {'Content-Type': 'application/json'};
-      var requestBody = jsonEncode({"english_text": inputController.text});
-
-      var response = await http.post(
-        Uri.parse('http://10.0.2.2:5000/translate'),
-        headers: headers,
-        body: requestBody,
-      );
-
-      if (response.statusCode == 200) {
-        var decodedResponse = jsonDecode(response.body);
-        setState(() {
-          translatedText = decodedResponse['translated_text'];
-          error = '';
-        });
-      } else {
-        setState(() {
-          translatedText = '';
-          error = 'Error: ${response.reasonPhrase}';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        translatedText = '';
-        error = 'Error: $e';
-      });
-    }
   }
 
   @override
@@ -63,29 +33,29 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
-            child: Text(
-          'English',
-          style: TextStyle(
-              fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
-        )),
+        title: Text('Urdu '),
       ),
       body: Column(
         children: [
-          Language(
-            onEnglishPressed: () {
-              debugPrint("Here");
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('Urdu'),
-              );
-            },
-            onUrduPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UrTranslationScreen()),
-              );
-            },
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Action for English button
+                  },
+                  child: Text('English'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Action for Urdu button
+                  },
+                  child: Text('Urdu'),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -101,14 +71,14 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                             child: Text(
-                              'English',
+                              'Urdu',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(16),
                             child: TextField(
-                              controller: inputController,
+                              controller: urduInputController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Type here...',
@@ -125,7 +95,7 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: translateText,
+                    onPressed: () {},
                     child: Container(
                       width: 80, // Set the width of the button
                       child: Center(
@@ -145,7 +115,7 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Urdu',
+                                  'English',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 IconButton(

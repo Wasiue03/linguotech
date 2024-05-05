@@ -28,6 +28,37 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
     super.dispose();
   }
 
+  Future<void> translateUrduToEnglish(String urduText) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var requestBody = jsonEncode({"urdu_text": urduInputController.text});
+
+      var response = await http.post(
+        Uri.parse('http://10.0.2.2:5000/urdu'),
+        headers: headers,
+        body: requestBody,
+      );
+
+      if (response.statusCode == 200) {
+        var decodedResponse = jsonDecode(response.body);
+        setState(() {
+          translatedText = decodedResponse['translated_text'];
+          error = '';
+        });
+      } else {
+        setState(() {
+          translatedText = '';
+          error = 'Error: ${response.reasonPhrase}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        translatedText = '';
+        error = 'Error: $e';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +126,9 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      translateUrduToEnglish(urduInputController.text);
+                    },
                     child: Container(
                       width: 80, // Set the width of the button
                       child: Center(

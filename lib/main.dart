@@ -113,7 +113,8 @@ class MyApp extends StatelessWidget {
                   extractedText: '',
                 ),
             '/Camera': (context) => Camera(),
-            '/urdu': (context) => UrTranslationScreen()
+            '/urdu': (context) => UrTranslationScreen(),
+            '/settings': (context) => SettingsScreen(),
           },
         );
       },

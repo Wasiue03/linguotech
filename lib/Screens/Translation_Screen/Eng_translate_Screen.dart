@@ -33,7 +33,7 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
       var requestBody = jsonEncode({"english_text": inputController.text});
 
       var response = await http.post(
-        Uri.parse('http://10.0.2.2:5000/translate'),
+        Uri.parse('http://10.0.2.2:5000/english'),
         headers: headers,
         body: requestBody,
       );

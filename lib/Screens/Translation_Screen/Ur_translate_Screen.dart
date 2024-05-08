@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:linguotech/Screens/Drawer/drawer.dart';
+import 'package:linguotech/services/language_provider.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 
 class UrTranslationScreen extends StatefulWidget {
@@ -66,6 +68,7 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
       appBar: AppBar(
         title: Text('Urdu '),
       ),
+      drawer: CustomDrawer(),
       body: Column(
         children: [
           Container(

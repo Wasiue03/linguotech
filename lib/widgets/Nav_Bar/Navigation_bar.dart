@@ -75,7 +75,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/history');
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, '/');
+        Navigator.pushReplacementNamed(context, '/settings');
         break;
       default:
         print('Invalid index');

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:linguotech/Screens/Drawer/drawer.dart';
 import 'package:linguotech/Screens/Translation_Screen/Ur_translate_Screen.dart';
 import 'package:linguotech/widgets/langauge_Screens.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
@@ -70,6 +71,7 @@ class _TranslationScreenState extends State<EngTranslationScreen> {
               fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
         )),
       ),
+      drawer: CustomDrawer(),
       body: Column(
         children: [
           Language(

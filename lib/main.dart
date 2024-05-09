@@ -48,6 +48,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:linguotech/Screens/Translation_Screen/Ur_translate_Screen.dart';
 import 'package:linguotech/Screens/camera/extract.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,7 +57,7 @@ import 'package:linguotech/services/language_provider.dart'; // Import LanguageP
 import 'package:linguotech/Screens/Login/user_login.dart';
 import 'package:linguotech/Screens/Register_Screen/user_register.dart';
 import 'package:linguotech/Screens/Summarization/summary.dart';
-import 'package:linguotech/Screens/Translation_Screen/translate.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 import 'package:linguotech/Screens/settings/settings.dart';
 import 'package:linguotech/firebase_options.dart';
 
@@ -104,14 +105,16 @@ class MyApp extends StatelessWidget {
           theme: Styles.themeData(themeProvider.darkTheme, context),
           initialRoute: '/',
           routes: {
-            '/': (context) => SettingsScreen(),
-            '/translation': (context) => TranslationScreen(),
+            '/': (context) => EngTranslationScreen(),
+            '/english': (context) => EngTranslationScreen(),
             '/login': (context) => SignInScreen(),
             '/signup': (context) => RegisterScreen(),
             '/summary': (context) => SummaryGeneratorScreen(
                   extractedText: '',
                 ),
             '/Camera': (context) => Camera(),
+            '/urdu': (context) => UrTranslationScreen(),
+            '/settings': (context) => SettingsScreen(),
           },
         );
       },

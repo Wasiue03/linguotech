@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:linguotech/Screens/Translation_Screen/translate.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 // Replace with the actual import path
 
 Future<void> signInWithGoogle(BuildContext context) async {
@@ -27,7 +27,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) =>
-            TranslationScreen(), // Replace HomeScreen with your actual home screen widget
+            EngTranslationScreen(), // Replace HomeScreen with your actual home screen widget
       ),
     );
 

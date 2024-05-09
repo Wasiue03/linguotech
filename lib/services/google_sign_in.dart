@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:linguotech/Screens/Translation_Screen/translate.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -38,7 +38,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
     );
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => TranslationScreen(),
+        builder: (context) => EngTranslationScreen(),
       ),
     );
   } catch (e) {

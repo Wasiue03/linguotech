@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:linguotech/Screens/Translation_Screen/translate.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 import 'package:linguotech/services/google_sign_in.dart';
 import 'package:linguotech/widgets/Translate/urdu_Text_Card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                TranslationScreen(), // Replace HomeScreen with your actual home screen widget
+                EngTranslationScreen(), // Replace HomeScreen with your actual home screen widget
           ),
         );
 

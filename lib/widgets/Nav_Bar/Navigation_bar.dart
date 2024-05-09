@@ -69,13 +69,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/Camera');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/translation');
+        Navigator.pushReplacementNamed(context, '/english');
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/history');
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, '/');
+        Navigator.pushReplacementNamed(context, '/settings');
         break;
       default:
         print('Invalid index');

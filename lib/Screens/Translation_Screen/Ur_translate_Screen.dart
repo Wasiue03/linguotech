@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:linguotech/Screens/Drawer/drawer.dart';
 import 'package:linguotech/services/language_provider.dart';
@@ -59,6 +60,15 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
         error = 'Error: $e';
       });
     }
+  }
+
+  void _copyToClipboard() {
+    Clipboard.setData(ClipboardData(text: translatedText));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Text copied to clipboard'),
+      ),
+    );
   }
 
   @override
@@ -155,9 +165,9 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 IconButton(
-                                  onPressed: () {
-                                    // Action for copying translated text
-                                  },
+                                  onPressed: translatedText.isNotEmpty
+                                      ? _copyToClipboard
+                                      : null,
                                   icon: Icon(Icons.copy),
                                   tooltip: 'Copy',
                                 ),

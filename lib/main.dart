@@ -50,6 +50,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:linguotech/Screens/Translation_Screen/Ur_translate_Screen.dart';
 import 'package:linguotech/Screens/camera/extract.dart';
+import 'package:linguotech/Screens/feedback/feedback.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:linguotech/services/theme_provider.dart';
@@ -115,6 +116,7 @@ class MyApp extends StatelessWidget {
             '/Camera': (context) => Camera(),
             '/urdu': (context) => UrTranslationScreen(),
             '/settings': (context) => SettingsScreen(),
+            '/feedback': (context) => FeedbackScreen()
           },
         );
       },

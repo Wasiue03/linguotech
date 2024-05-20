@@ -40,7 +40,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.history),
-          label: languageProvider.getLocalizedString('History'),
+          label: languageProvider.getLocalizedString('Feedback'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
@@ -72,7 +72,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacementNamed(context, '/english');
         break;
       case 3:
-        Navigator.pushReplacementNamed(context, '/history');
+        Navigator.pushReplacementNamed(context, '/feedback');
         break;
       case 4:
         Navigator.pushReplacementNamed(context, '/settings');

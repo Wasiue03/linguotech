@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:linguotech/Screens/Drawer/drawer.dart';
-import 'package:linguotech/services/language_provider.dart';
 import 'package:linguotech/widgets/Nav_Bar/Navigation_bar.dart';
 
 class UrTranslationScreen extends StatefulWidget {
@@ -37,7 +36,7 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
       var requestBody = jsonEncode({"urdu_text": urduInputController.text});
 
       var response = await http.post(
-        Uri.parse('http://10.0.2.2:5000/urdu'),
+        Uri.parse('http://192.168.18.15:5000/urdu'),
         headers: headers,
         body: requestBody,
       );

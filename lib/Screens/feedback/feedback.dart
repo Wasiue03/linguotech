@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:linguotech/Screens/Translation_Screen/Eng_translate_Screen.dart';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -69,6 +70,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Feedback'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EngTranslationScreen()));
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(40.0),

@@ -7,7 +7,7 @@ Future<String> fetchSummaryFromLink(String url) async {
     var body = json.encode({'url': url}); // Encode the URL as JSON
     var response = await http.post(
       Uri.parse(
-          'http://10.0.2.2:5000//web_summary'), // Replace with your server address
+          'http://10.113.79.140:5000//web_summary'), // Replace with your server address
       headers: headers,
       body: body,
     );
@@ -33,7 +33,7 @@ Future<String> fetchEnglishSummary(String text) async {
     var body = json.encode({'text': text});
     var response = await http.post(
       Uri.parse(
-          'http://10.0.2.2:5000/eng_summary'), // Replace with your server address
+          'http://10.113.79.140:5000/eng_summary'), // Replace with your server address
       headers: headers,
       body: body,
     );

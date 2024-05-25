@@ -316,7 +316,7 @@ class _SummaryGeneratorScreenState extends State<SummaryGeneratorScreen> {
       var body = json.encode({'text': text});
       var response = await http.post(
         Uri.parse(
-            'http://192.168.18.15:5000/generate_summary'), // Replace with your server address
+            'http://10.113.79.140:5000/generate_summary'), // Replace with your server address
         headers: headers,
         body: body,
       );

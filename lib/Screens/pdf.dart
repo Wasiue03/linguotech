@@ -23,7 +23,7 @@ class _PDFPickerScreenState extends State<PDFPickerScreen> {
         String? path = result.files.single.path;
         if (path != null) {
           // Call Flask server to extract text from the selected PDF
-          String url = 'http://10.113.79.140:5000/extract-text';
+          String url = 'http://10.113.71.199:5000/extract-text';
           var request = http.MultipartRequest('POST', Uri.parse(url))
             ..files.add(await http.MultipartFile.fromPath('file', path));
 

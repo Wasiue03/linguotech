@@ -33,7 +33,7 @@ Future<String> fetchEnglishSummary(String text) async {
     var body = json.encode({'text': text});
     var response = await http.post(
       Uri.parse(
-          'http://10.113.79.140:5000/eng_summary'), // Replace with your server address
+          'http://10.113.71.199:5000/eng_summary'), // Replace with your server address
       headers: headers,
       body: body,
     );

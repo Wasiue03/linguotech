@@ -36,7 +36,7 @@ class _TranslationScreenState extends State<UrTranslationScreen> {
       var requestBody = jsonEncode({"urdu_text": urduInputController.text});
 
       var response = await http.post(
-        Uri.parse('http://10.113.79.140:5000/urdu'),
+        Uri.parse('http://10.113.71.199:5000/urdu'),
         headers: headers,
         body: requestBody,
       );
